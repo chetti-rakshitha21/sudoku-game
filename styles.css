@@ -69,8 +69,8 @@ h1 {
     grid-template-columns: repeat(9, 1fr);
     grid-template-rows: repeat(9, 1fr);
     gap: 0;
-    background-color: #000;
-    padding: 2px;
+    background-color: #333;
+    padding: 3px;
     margin: 20px auto;
     width: 450px;
     height: 450px;
@@ -84,11 +84,12 @@ h1 {
     justify-content: center;
     align-items: center;
     background-color: #fff;
-    border: 1px solid #ccc;
+    border: 1px solid #999;
     font-size: 1.5em;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.2s;
+    color: #000;
 }
 
 .sudoku-cell:hover:not(.fixed) {
@@ -116,21 +117,41 @@ h1 {
     background-color: #e0e0ff;
 }
 
-/* 3x3 box borders */
-.sudoku-cell:nth-child(3n) {
-    border-right: 3px solid #333;
+/* Top borders for 3x3 boxes */
+.sudoku-cell:nth-child(1),
+.sudoku-cell:nth-child(4),
+.sudoku-cell:nth-child(7),
+.sudoku-cell:nth-child(28),
+.sudoku-cell:nth-child(31),
+.sudoku-cell:nth-child(34),
+.sudoku-cell:nth-child(55),
+.sudoku-cell:nth-child(58),
+.sudoku-cell:nth-child(61) {
+    border-top: 3px solid #000;
 }
 
-.sudoku-cell:nth-child(27n) ~ .sudoku-cell:nth-child(-n + 27),
-.sudoku-cell:nth-child(54n) ~ .sudoku-cell:nth-child(-n + 54),
-.sudoku-cell:nth-child(81) {
-    border-bottom: 3px solid #333;
+/* Left borders for 3x3 boxes */
+.sudoku-cell:nth-child(1),
+.sudoku-cell:nth-child(10),
+.sudoku-cell:nth-child(19),
+.sudoku-cell:nth-child(28),
+.sudoku-cell:nth-child(37),
+.sudoku-cell:nth-child(46),
+.sudoku-cell:nth-child(55),
+.sudoku-cell:nth-child(64),
+.sudoku-cell:nth-child(73) {
+    border-left: 3px solid #000;
 }
 
-.sudoku-cell:nth-child(9n + 1):nth-child(-n + 9),
-.sudoku-cell:nth-child(9n + 1):nth-child(n + 28):nth-child(-n + 36),
-.sudoku-cell:nth-child(9n + 1):nth-child(n + 55):nth-child(-n + 63) {
-    border-bottom: 3px solid #333;
+/* Right borders for 3x3 boxes */
+.sudoku-cell:nth-child(3n),
+.sudoku-cell:nth-child(3n + 9) {
+    border-right: 3px solid #000;
+}
+
+/* Bottom borders for 3x3 boxes */
+.sudoku-cell:nth-child(9n + 9) {
+    border-bottom: 3px solid #000;
 }
 
 .info {
@@ -156,15 +177,4 @@ h1 {
 
 #status.error {
     color: #e74c3c;
-}
-
-/* Input styling for mobile */
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-input[type="number"] {
-    -moz-appearance: textfield;
 }
