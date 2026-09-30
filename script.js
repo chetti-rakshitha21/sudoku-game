@@ -126,11 +126,11 @@ class SudokuGame {
                 const cell = document.createElement('div');
                 cell.className = 'sudoku-cell';
                 cell.textContent = this.board[row][col] || '';
+                cell.dataset.row = row;
+                cell.dataset.col = col;
 
                 if (this.originalBoard[row][col] !== 0) {
                     cell.classList.add('fixed');
-                } else {
-                    cell.addEventListener('click', () => this.selectCell(row, col, cell));
                 }
 
                 if (this.selectedCell && this.selectedCell.row === row && this.selectedCell.col === col) {
@@ -155,32 +155,38 @@ class SudokuGame {
                     }
                 }
 
+                cell.addEventListener('click', (e) => {
+                    this.selectCell(row, col);
+                });
+
                 boardEl.appendChild(cell);
             }
         }
+
+        document.removeEventListener('keydown', this.keydownHandler);
+        this.keydownHandler = this.handleKeyDown.bind(this);
+        document.addEventListener('keydown', this.keydownHandler);
     }
 
-    selectCell(row, col, cellEl) {
-        this.selectedCell = { row, col };
-        this.render();
+    selectCell(row, col) {
+        if (this.originalBoard[row][col] === 0) {
+            this.selectedCell = { row, col };
+            this.render();
+        }
+    }
 
-        // Allow number input via keyboard
-        const handleKeyDown = (e) => {
-            const num = parseInt(e.key);
-            if (num >= 1 && num <= 9) {
-                this.setCellValue(row, col, num);
-                document.removeEventListener('keydown', handleKeyDown);
-            } else if (e.key === '0' || e.key === 'Backspace' || e.key === 'Delete') {
-                this.setCellValue(row, col, 0);
-                document.removeEventListener('keydown', handleKeyDown);
-            } else if (e.key === 'Escape') {
-                this.selectedCell = null;
-                this.render();
-                document.removeEventListener('keydown', handleKeyDown);
-            }
-        };
+    handleKeyDown(e) {
+        if (!this.selectedCell) return;
 
-        document.addEventListener('keydown', handleKeyDown);
+        const num = parseInt(e.key);
+        if (num >= 1 && num <= 9) {
+            this.setCellValue(this.selectedCell.row, this.selectedCell.col, num);
+        } else if (e.key === '0' || e.key === 'Backspace' || e.key === 'Delete') {
+            this.setCellValue(this.selectedCell.row, this.selectedCell.col, 0);
+        } else if (e.key === 'Escape') {
+            this.selectedCell = null;
+            this.render();
+        }
     }
 
     setCellValue(row, col, value) {
@@ -195,13 +201,9 @@ class SudokuGame {
         for (let row = 0; row < 9; row++) {
             for (let col = 0; col < 9; col++) {
                 if (this.board[row][col] === 0) return false;
-                if (!this.isValid(this.board, row, col, this.board[row][col])) {
-                    if (col < 8) continue; // Keep checking
-                }
             }
         }
 
-        // Verify the entire board
         for (let row = 0; row < 9; row++) {
             for (let col = 0; col < 9; col++) {
                 const num = this.board[row][col];
@@ -287,7 +289,6 @@ class SudokuGame {
     }
 }
 
-// Initialize the game when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     new SudokuGame();
 });
