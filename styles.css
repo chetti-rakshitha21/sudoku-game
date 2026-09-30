@@ -69,12 +69,12 @@ h1 {
     grid-template-columns: repeat(9, 1fr);
     grid-template-rows: repeat(9, 1fr);
     gap: 0;
-    background-color: #333;
-    padding: 3px;
+    background-color: #000;
     margin: 20px auto;
     width: 450px;
     height: 450px;
-    border: 3px solid #333;
+    border: 3px solid #000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .sudoku-cell {
@@ -84,11 +84,11 @@ h1 {
     justify-content: center;
     align-items: center;
     background-color: #fff;
-    border: 1px solid #999;
-    font-size: 1.5em;
+    border: 1px solid #ccc;
+    font-size: 20px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.2s;
+    user-select: none;
     color: #000;
 }
 
@@ -98,7 +98,6 @@ h1 {
 
 .sudoku-cell.fixed {
     background-color: #f0f0f0;
-    color: #000;
     cursor: not-allowed;
     font-weight: bold;
 }
@@ -108,49 +107,18 @@ h1 {
     color: white;
 }
 
-.sudoku-cell.error {
-    background-color: #ffcccc;
-    color: #c00;
-}
-
 .sudoku-cell.related {
     background-color: #e0e0ff;
 }
 
-/* Top borders for 3x3 boxes */
-.sudoku-cell:nth-child(1),
-.sudoku-cell:nth-child(4),
-.sudoku-cell:nth-child(7),
-.sudoku-cell:nth-child(28),
-.sudoku-cell:nth-child(31),
-.sudoku-cell:nth-child(34),
-.sudoku-cell:nth-child(55),
-.sudoku-cell:nth-child(58),
-.sudoku-cell:nth-child(61) {
-    border-top: 3px solid #000;
-}
-
-/* Left borders for 3x3 boxes */
-.sudoku-cell:nth-child(1),
-.sudoku-cell:nth-child(10),
-.sudoku-cell:nth-child(19),
-.sudoku-cell:nth-child(28),
-.sudoku-cell:nth-child(37),
-.sudoku-cell:nth-child(46),
-.sudoku-cell:nth-child(55),
-.sudoku-cell:nth-child(64),
-.sudoku-cell:nth-child(73) {
-    border-left: 3px solid #000;
-}
-
-/* Right borders for 3x3 boxes */
-.sudoku-cell:nth-child(3n),
-.sudoku-cell:nth-child(3n + 9) {
+/* 3x3 box borders */
+.sudoku-cell:nth-child(3n) {
     border-right: 3px solid #000;
 }
 
-/* Bottom borders for 3x3 boxes */
-.sudoku-cell:nth-child(9n + 9) {
+.sudoku-cell:nth-child(n + 19):nth-child(-n + 27),
+.sudoku-cell:nth-child(n + 46):nth-child(-n + 54),
+.sudoku-cell:nth-child(n + 73) {
     border-bottom: 3px solid #000;
 }
 
